@@ -14,7 +14,7 @@ if(isset($_POST['login'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // بيانات الأدمن حسب ملف المشروع
+    // بيانات الأدمن 
     if($username === "admin" && $password === "admin123"){
         $_SESSION['admin'] = true;
         header("Location: manageEvents.php");
