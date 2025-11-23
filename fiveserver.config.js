@@ -1,4 +1,0 @@
-module.exports = {
-    php: "/Applications/MAMP/bin/php/php8.4.1/bin/php"
-};
-
