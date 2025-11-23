@@ -1,21 +1,24 @@
 <?php
 session_start();
+include("database/config.php"); // الاتصال بقاعدة البيانات لو احتجتيه لاحقاً
 
-// لو الأدمن أصلاً مسجل دخول، يرجع للصفحة الرئيسية
-if(isset($_SESSION['admin'])){
+// إذا الأدمن حاول يدخل وهو already logged in → ودّيه للـ manageEvents
+if (isset($_SESSION['admin'])) {
     header("Location: manageEvents.php");
     exit();
 }
 
-$error = "";
-
-if(isset($_POST['login'])){
+// إذا تم إرسال الفورم
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // بيانات الأدمن 
-    if($username === "admin" && $password === "admin123"){
+    // بيانات الأدمن الثابتة حسب وصف المشروع
+    $admin_user = "admin";
+    $admin_pass = "admin123";
+
+    if ($username === $admin_user && $password === $admin_pass) {
         $_SESSION['admin'] = true;
         header("Location: manageEvents.php");
         exit();
@@ -23,36 +26,35 @@ if(isset($_POST['login'])){
         $error = "Invalid username or password.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="../css/style.css">  <!-- نفس ملف CSS الموحد -->
+
+    <!-- رابط ملف CSS الخارجي -->
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
 
-<div class="container" style="max-width: 400px; margin-top: 80px;">
-    
-    <h2 style="text-align:center; margin-bottom:20px;">Admin Login</h2>
+<div class="login-box">
+    <h2>Admin Login</h2>
 
-    <?php if($error != ""): ?>
-        <p style="color:red; text-align:center;"><?php echo $error; ?></p>
-    <?php endif; ?>
+    <?php 
+    if (isset($error)) {
+        echo "<p class='error'>$error</p>";
+    }
+    ?>
 
-    <form method="POST" class="admin-login-form">
+    <form action="" method="post">
+        <input type="text" name="username" placeholder="Admin Username" required>
+        <input type="password" name="password" placeholder="Password" required>
 
-        <label>Username:</label>
-        <input type="text" name="username" required>
-
-        <label>Password:</label>
-        <input type="password" name="password" required>
-
-        <button type="submit" name="login" class="btn btn-primary" style="width:100%;">Login</button>
-
+        <button type="submit">Login</button>
     </form>
 </div>
 
