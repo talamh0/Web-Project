@@ -4,7 +4,7 @@ include("database/config.php"); // الاتصال بقاعدة البيانات 
 
 // إذا الأدمن حاول يدخل وهو already logged in → ودّيه للـ manageEvents
 if (isset($_SESSION['admin'])) {
-    header("Location: admin/manageEvents.php");
+    header("Location: manageEvents.php");
     exit();
 }
 
